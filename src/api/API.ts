@@ -15,7 +15,7 @@ export type MoviesType = {
 }
 
 const configOMB = {
-    baseURL: 'http://www.omdbapi.com',
+    baseURL: 'https://www.omdbapi.com',
 };
 const key = '?apikey=14d87255';
 const axiosInstance = axios.create(configOMB);
