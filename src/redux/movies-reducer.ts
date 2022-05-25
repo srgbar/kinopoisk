@@ -1,49 +1,68 @@
 import {Dispatch} from "redux";
-import {setErrorStatusAC, setStatusGetFilms, setStatusLoadingAC} from "./app-reducer";
-import API, {MoviesType} from "../api/API";
+import {setErrorStatusAC, setFormValuesAC, setStatusGetFilmsAC, setStatusLoadingAC} from "./app-reducer";
+import API, {FindMoviesDataType, MoviesType} from "../api/API";
 
-const initialState = [] as Array<MoviesType>
+export type InitialStateType = {
+    films: Array<MoviesType>
+    totalResults: number | null
+    page: number
+}
+
+const initialState: InitialStateType = {
+    films: [] as Array<MoviesType>,
+    totalResults: null,
+    page: 1
+}
 
 type ActionsType =
     | ReturnType<typeof setMoviesAC>
 
 type DispatchType =
     | ReturnType<typeof setMoviesAC>
+    | ReturnType<typeof setFormValuesAC>
     | ReturnType<typeof setStatusLoadingAC>
     | ReturnType<typeof setErrorStatusAC>
-    | ReturnType<typeof setStatusGetFilms>
+    | ReturnType<typeof setStatusGetFilmsAC>
 
-export const moviesReducer = (state = initialState, actions: ActionsType): Array<MoviesType> => {
+export const moviesReducer = (state = initialState, actions: ActionsType): InitialStateType => {
     switch (actions.type) {
         case "SET-MOVIES":
-            return [...actions.movies]
+            return {films: [...actions.movies], page: actions.page, totalResults: actions.totalResults}
         default:
             return state
     }
 }
 
-const setMoviesAC = (movies: Array<MoviesType>) => ({type: 'SET-MOVIES', movies} as const)
+const setMoviesAC = (movies: Array<MoviesType>, page: number, totalResults: number | null) => ({
+    type: 'SET-MOVIES',
+    movies,
+    totalResults,
+    page
+} as const)
 
-export const thunkSetMovies = (title: string) => (dispatch: Dispatch<DispatchType>) => {
+export const thunkSetMovies = (findData: FindMoviesDataType, page: number) => (dispatch: Dispatch<DispatchType>) => {
     dispatch(setStatusLoadingAC(true))
-    dispatch(setStatusGetFilms('loading'))
-    API.searchFilmsByTitle(title)
+    dispatch(setStatusGetFilmsAC('loading'))
+    API.searchFilmsByTitle(findData, page)
         .then((res) => {
-            const {Response, Search, Error} = res.data;
+            const {Response, Search, Error, totalResults} = res.data;
             if (Response === "True") {
-                dispatch(setStatusGetFilms('succeeded'))
-                dispatch(setMoviesAC(Search))
+                dispatch(setStatusGetFilmsAC('succeeded'))
+                dispatch(setMoviesAC(Search, page, JSON.parse(totalResults)))
+
+                dispatch(setFormValuesAC(findData));
+
                 dispatch(setStatusLoadingAC(false))
 
-                console.log(Search)
+                console.log(res.data)
             } else {
-                dispatch(setStatusGetFilms('failed'))
+                dispatch(setStatusGetFilmsAC('failed'))
                 dispatch(setErrorStatusAC(Error))
                 dispatch(setStatusLoadingAC(false))
             }
         })
         .catch(() => {
-            dispatch(setStatusGetFilms('failed'))
+            dispatch(setStatusGetFilmsAC('failed'))
             dispatch(setErrorStatusAC('Неизвестная ошибка'))
         })
 }

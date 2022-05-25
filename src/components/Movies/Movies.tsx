@@ -5,10 +5,13 @@ import {MoviesType} from "../../api/API";
 import {Button, Card, CardActions, CardContent, Typography, useMediaQuery} from "@mui/material";
 import {NavLink} from "react-router-dom";
 import defaultPoster from '../../assets/image/default-poster.jpg';
+import {Pagination} from "../Pagination/Pagination";
 
 export const Movies = () => {
 
-    const movies = useSelector<RootStoreType, Array<MoviesType>>(state => state.movies)
+    const movies = useSelector<RootStoreType, Array<MoviesType>>(state => state.movies.films)
+    const title = useSelector<RootStoreType, string | null>(state => state.app.findData.title)
+    const type = useSelector<RootStoreType, string | null>(state => state.app.findData.type)
 
     const matches = useMediaQuery('(max-width: 500px)');
 
@@ -59,5 +62,6 @@ export const Movies = () => {
 
     return <>
         {mappedItems}
+        <Pagination title={title!} type={type!}/>
     </>
 }

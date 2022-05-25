@@ -1,11 +1,5 @@
 import axios from 'axios';
 
-export type ResponseType = {
-    Search: Array<MoviesType>
-    Error: string
-    Response: string
-}
-
 export type MoviesType = {
     Title: string
     Year: string
@@ -14,18 +8,35 @@ export type MoviesType = {
     Poster: string
 }
 
+export type FindMoviesDataType = {
+    title: string;
+    type: string;
+}
+
+export type GetMoviesResponseType = {
+    Response: string;
+    Search: MoviesType[];
+    totalResults: string;
+}
+
+export type FindRejectType = {
+    Response: string;
+    Error: string;
+}
+
 const configOMB = {
     baseURL: 'https://www.omdbapi.com',
 };
 const key = '?apikey=14d87255';
+const defaultPage: number = 1;
 const axiosInstance = axios.create(configOMB);
 
 const API = {
-    searchFilmsByTitle: (title: string) => {
-        const query = `${key}&s=${title}`;
-        return axiosInstance.get<ResponseType>(query);
-    }
-};
+    searchFilmsByTitle: (data: FindMoviesDataType, page = defaultPage) => {
+        const query = `${key}&s=${data.title}&type=${data.type}&page=${page}`;
+        return axiosInstance.get<GetMoviesResponseType & FindRejectType>(query);
+    },
+}
 
 export default API;
 
