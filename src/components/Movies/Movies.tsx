@@ -6,6 +6,7 @@ import {Button, Card, CardActions, CardContent, Typography, useMediaQuery} from 
 import {NavLink} from "react-router-dom";
 import defaultPoster from '../../assets/image/default-poster.jpg';
 import {Pagination} from "../Pagination/Pagination";
+import {Pagination_2} from "../Pagination/Pagination_2";
 
 export const Movies = () => {
 
@@ -21,8 +22,8 @@ export const Movies = () => {
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-between',
-                    padding: '20px',
-                    width: matches ? 260 : 400,
+                    padding: '15px',
+                    width: matches ? 260 : 300,
                     backgroundColor: "#e9e9f3",
                     margin: 3,
                 }}
@@ -41,7 +42,6 @@ export const Movies = () => {
                     <CardContent>
                         <Typography
                             sx={{textAlign: 'center'}}
-                            gutterBottom
                             variant="h5"
                             component="div"
                         >
@@ -62,6 +62,6 @@ export const Movies = () => {
 
     return <>
         {mappedItems}
-        <Pagination title={title!} type={type!}/>
+        <Pagination_2 title={title!} type={type!}/>
     </>
 }

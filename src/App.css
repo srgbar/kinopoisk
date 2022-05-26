@@ -40,8 +40,9 @@ a {
     flex-wrap: wrap;
     width: 100%;
     justify-content: space-around;
-
     min-height: 65vh;
+    padding-left: 180px;
+    padding-right: 180px;
 }
 
 .footer {
@@ -64,6 +65,10 @@ a {
 
 .footer p a {
     color: #00AAC3;
+}
+
+.span {
+    color: crimson;
 }
 
 

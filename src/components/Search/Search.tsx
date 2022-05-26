@@ -37,7 +37,7 @@ export const Search = () => {
                        onChange={(e) => setSearchName(e.currentTarget.value)}
             />
 
-            <FormControl variant="standard" sx={{ m: 1, minWidth: size ? 120 : 80}}>
+            <FormControl variant="standard" sx={{m: 1, minWidth: size ? 120 : 80}}>
                 <InputLabel id="demo-simple-select-standard-label"> </InputLabel>
                 <Select
                     labelId="demo-simple-select-standard-label"

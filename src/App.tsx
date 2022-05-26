@@ -36,7 +36,8 @@ function App() {
                 status === 'succeeded'
                     ? <div>
                         <div style={{display: "flex", justifyContent: "center", margin: 10}}>
-                            <b>You searched for: {JSON.stringify(title)}, {totalResults} results found</b>
+                            <b>You searched for: <span className="span">{JSON.stringify(title)}</span>,
+                                total results found: <span className="span">{totalResults}</span></b>
                         </div>
                         <div className="itemContainer">
                             <Movies/>
