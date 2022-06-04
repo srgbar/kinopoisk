@@ -114,6 +114,7 @@ export const Pagination_2 = ({title, type}: PropsType) => {
             </div>
         );
     }
+
     for (let i = pagesCount - 4; i <= pagesCount; i += 1) {
         pages.push(i);
     }

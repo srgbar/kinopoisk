@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {KeyboardEvent, useState} from 'react';
 import {
     Button,
     FormControl,
@@ -19,11 +19,17 @@ export const Search = () => {
     const dispatch = useDispatch()
     const size = useMediaQuery('(min-width: 500px)');
 
-    const [searchName, setSearchName] = useState('');
-    const [searchType, setSearchType] = useState('Movie');
+    const [searchName, setSearchName] = useState("");
+    const [searchType, setSearchType] = useState("Movie");
 
     const searchFilm = () => {
         dispatch(thunkSetMovies({title: searchName, type: searchType}, 1))
+    }
+
+    const onKeyPressCallback = (e: KeyboardEvent<HTMLDivElement>) => {
+        if (e.key === "Enter") {
+            dispatch(thunkSetMovies({title: searchName, type: searchType}, 1))
+        }
     }
 
     return (
@@ -35,6 +41,7 @@ export const Search = () => {
                        type="search"
                        value={searchName}
                        onChange={(e) => setSearchName(e.currentTarget.value)}
+                       onKeyPress={onKeyPressCallback}
             />
 
             <FormControl variant="standard" sx={{m: 1, minWidth: size ? 120 : 80}}>
@@ -49,11 +56,11 @@ export const Search = () => {
                 >
                     <MenuItem value="Movie">Movie</MenuItem>
                     <MenuItem value="Series">Series</MenuItem>
-                    <MenuItem value="Episode">Episode</MenuItem>
+                    <MenuItem value="Game">Game</MenuItem>
                 </Select>
             </FormControl>
 
-            <Button style={{background: "Background"}} variant="contained" onClick={searchFilm}>Search</Button>
+            <Button variant="contained" onClick={searchFilm}>Search</Button>
             <ErrorAlert/>
         </div>
     )

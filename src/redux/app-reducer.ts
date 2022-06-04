@@ -4,7 +4,6 @@ type InitialStateType = {
     isLoading: boolean
     isError: string | null
     statusGetFilms: 'idle' | 'loading' | 'succeeded' | 'failed'
-
     findData: FindMoviesDataType
 }
 
@@ -12,15 +11,13 @@ const initialState: InitialStateType = {
     isLoading: false,
     isError: null,
     statusGetFilms: "idle",
-
-    findData: {} as FindMoviesDataType
+    findData: {} as FindMoviesDataType,
 }
 
 type ActionsType =
     | ReturnType<typeof setStatusLoadingAC>
     | ReturnType<typeof setErrorStatusAC>
     | ReturnType<typeof setStatusGetFilmsAC>
-
     | ReturnType<typeof setFormValuesAC>
 
 export const appReducer = (state = initialState, actions: ActionsType): InitialStateType => {
@@ -44,6 +41,5 @@ export const setErrorStatusAC = (isError: string | null) =>
     ({type: 'STATUS-ERROR', isError} as const)
 export const setStatusGetFilmsAC = (statusResponse: 'idle' | 'loading' | 'succeeded' | 'failed') =>
     ({type: 'SET-STATUS-GET-FILMS', statusResponse} as const)
-
 export const setFormValuesAC = (findData: FindMoviesDataType) =>
     ({type: 'SET-FORM-VALUES', findData} as const)
